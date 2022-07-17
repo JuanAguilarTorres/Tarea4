@@ -131,7 +131,7 @@
      <string>Dirección Física         </string>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QListWidget" name="listaProductos">
     <property name="geometry">
      <rect>
       <x>420</x>

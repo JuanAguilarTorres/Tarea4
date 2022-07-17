@@ -23,6 +23,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::actualizarLista()
+{
+    for (Producto *producto : laTienda->consultarProductos())
+    {
+       ui->listaProductos->addItem(QString::fromStdString(producto->obtenerString()));
+    }
+}
+
 void MainWindow::on_btnImportar_clicked()
 {
     QString archivoDireccion = QFileDialog::getOpenFileName(this, "Abrir archivo", QDir::homePath());

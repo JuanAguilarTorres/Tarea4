@@ -16,6 +16,7 @@ public:
     ~MainWindow();
 
 private slots:
+    void actualizarLista();
     void on_btnImportar_clicked();
 
 private:

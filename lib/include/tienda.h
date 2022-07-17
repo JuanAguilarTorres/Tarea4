@@ -36,6 +36,15 @@ class Tienda {
     void CargarDesdeStreamBinario(istream *streamEntrada);
 
     friend ostream& operator << (ostream &o, const Tienda *Tienda);
+
+    string getNombre();
+    void setNombre(string nuevoNombre);
+    string getSitioWeb();
+    void setSitioWeb(string nuevoSitioWeb);
+    string getLocalizacion();
+    void setLocalizacion(string nuevoLocalizacion);
+    string getTelefono();
+    void setTelefono(string nuevoTelefono);
 };
 
 #endif
