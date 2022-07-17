@@ -81,3 +81,13 @@ void MainWindow::on_btnEditar_clicked()
     this->actualizarLista();
 }
 
+
+void MainWindow::on_btnEliminar_clicked()
+{
+    laTienda->eliminarProducto((this->ui->lineIdProducto->text()).toInt());
+    this->ui->lineIdProducto->clear();
+    this->ui->lineNombreProducto->clear();
+    this->ui->lineExistencia->clear();
+    this->actualizarLista();
+}
+
