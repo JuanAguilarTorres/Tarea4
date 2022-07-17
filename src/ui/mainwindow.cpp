@@ -64,30 +64,54 @@ void MainWindow::on_btnImportar_clicked()
 
 void MainWindow::on_btnAgregar_clicked()
 {
-    laTienda->agregarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
-    this->ui->lineIdProducto->clear();
-    this->ui->lineNombreProducto->clear();
-    this->ui->lineExistencia->clear();
-    this->actualizarLista();
+    try{
+        laTienda->agregarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
+        this->ui->lineIdProducto->clear();
+        this->ui->lineNombreProducto->clear();
+        this->ui->lineExistencia->clear();
+        this->actualizarLista();
+    }catch(char const*message)
+    {
+        QMessageBox* msgbox = new QMessageBox(this);
+        msgbox->setWindowTitle("Notificación");
+        msgbox->setText("Error agregando. Por favor asegúrese que el Id no esté en uso ya.");
+        msgbox->open();
+    }
 }
 
 
 void MainWindow::on_btnEditar_clicked()
 {
-    laTienda->editarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
-    this->ui->lineIdProducto->clear();
-    this->ui->lineNombreProducto->clear();
-    this->ui->lineExistencia->clear();
-    this->actualizarLista();
+    try{
+        laTienda->editarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
+        this->ui->lineIdProducto->clear();
+        this->ui->lineNombreProducto->clear();
+        this->ui->lineExistencia->clear();
+        this->actualizarLista();
+    }catch(char const*message)
+    {
+        QMessageBox* msgbox = new QMessageBox(this);
+        msgbox->setWindowTitle("Notificación");
+        msgbox->setText("Error editando. Por favor asegúrese que el Id proporcionado esté en uso.");
+        msgbox->open();
+    }
 }
 
 
 void MainWindow::on_btnEliminar_clicked()
 {
-    laTienda->eliminarProducto((this->ui->lineIdProducto->text()).toInt());
-    this->ui->lineIdProducto->clear();
-    this->ui->lineNombreProducto->clear();
-    this->ui->lineExistencia->clear();
-    this->actualizarLista();
+    try{
+        laTienda->eliminarProducto((this->ui->lineIdProducto->text()).toInt());
+        this->ui->lineIdProducto->clear();
+        this->ui->lineNombreProducto->clear();
+        this->ui->lineExistencia->clear();
+        this->actualizarLista();
+    }catch(char const*message)
+    {
+        QMessageBox* msgbox = new QMessageBox(this);
+        msgbox->setWindowTitle("Notificación");
+        msgbox->setText("Error eliminando. Por favor asegúrese que el Id proporcionado esté en uso.");
+        msgbox->open();
+    }
 }
 
