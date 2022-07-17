@@ -71,3 +71,13 @@ void MainWindow::on_btnAgregar_clicked()
     this->actualizarLista();
 }
 
+
+void MainWindow::on_btnEditar_clicked()
+{
+    laTienda->editarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
+    this->ui->lineIdProducto->clear();
+    this->ui->lineNombreProducto->clear();
+    this->ui->lineExistencia->clear();
+    this->actualizarLista();
+}
+
