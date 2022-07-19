@@ -38,31 +38,30 @@ void MainWindow::actualizarLista()
 
 void MainWindow::on_btnImportar_clicked()
 {
-//    QString archivoDireccion = QFileDialog::getOpenFileName(this, "Abrir archivo", QDir::homePath());
-//    if (archivoDireccion == "")
-//    {
-//        QMessageBox::information(this, "Archivo", "Cancelado");
-//    }else
-//    {
-//        QMessageBox::information(this, "Archivo", archivoDireccion);
-//        QFile archivo(archivoDireccion);
-//        if (!archivo.open(QFile::ReadOnly|QFile::Text))
-//        {
-//            QMessageBox::warning(this,"Error","El archivo no se abrió");
-//        }
-//        std::string stream = QTextStream(&archivo).readAll().toStdString();
+    Tienda *tiendaVacia = new Tienda();
+    laTienda = tiendaVacia;
+    QString archivoDireccion = QFileDialog::getOpenFileName(this, "Abrir archivo", QDir::homePath());
+    if (archivoDireccion == "")
+    {
+        QMessageBox::information(this, "Archivo", "Cancelado");
+    }else
+    {
 
-//        std::filebuf fb;
-//        if (fb.open (archivoDireccion.toStdString(),std::ios::in))
-//          {
-//            std::istream entrada(&fb);
-//            while (entrada)
-//              std::cout << char(entrada.get());
-//            fb.close();
-//            laTienda->CargarDesdeStreamBinario(&entrada);
-//          }
-
-//    }
+        QMessageBox::information(this, "Archivo", archivoDireccion);
+        QFile archivo(archivoDireccion);
+        if (!archivo.open(QFile::ReadOnly|QFile::Text))
+        {
+            QMessageBox::warning(this,"Error","El archivo no se abrió");
+        }
+        std::string archivoString = QTextStream(&archivo).readAll().toStdString();
+        std::istringstream stream(archivoString);
+        laTienda->CargarDesdeStreamBinario(&stream);
+        this->actualizarLista();
+        this->ui->lineNombre->setText(QString::fromStdString(laTienda->getNombre()));
+        this->ui->lineDirWeb->setText(QString::fromStdString(laTienda->getSitioWeb()));
+        this->ui->lineDirFisica->setText(QString::fromStdString(laTienda->getLocalizacion()));
+        this->ui->lineTelefono->setText(QString::fromStdString(laTienda->getNombre()));
+        }
 }
 
 
