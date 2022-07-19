@@ -6,6 +6,7 @@
 #include "excepcionEliminarIncorrecto.h"
 #include "excepcionAgregarDuplicado.h"
 #include "excepcionEditarIncorrecto.h"
+#include "excepcionCampoInvalido.h"
 
 using namespace std;
 
@@ -49,6 +50,10 @@ void Tienda::agregarProducto(Producto *nuevoProducto)
 
 void Tienda::agregarProducto(int id, string nombre, int existencias)
 {
+    if(id <= 0 || nombre == ""){
+        throw excepcionCampoInvalido();
+    }
+
     Producto *nuevoProducto = new Producto(id, nombre, existencias);
 
     int nuevoId = nuevoProducto->obtenerId();

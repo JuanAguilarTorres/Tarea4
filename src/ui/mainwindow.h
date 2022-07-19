@@ -16,7 +16,7 @@ public:
     ~MainWindow();
 
 private slots:
-/*
+
     void actualizarLista();
 
     void on_btnImportar_clicked();
@@ -26,7 +26,7 @@ private slots:
     void on_btnEditar_clicked();
 
     void on_btnEliminar_clicked();
-*/
+
 
 private:
     Ui::MainWindow *ui;

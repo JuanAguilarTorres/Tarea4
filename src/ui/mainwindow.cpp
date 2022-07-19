@@ -1,7 +1,11 @@
 #include "mainwindow.h"
+#include "excepcionEliminarIncorrecto.h"
+#include "excepcionAgregarDuplicado.h"
+#include "excepcionEditarIncorrecto.h"
+#include "excepcionCampoInvalido.h"
 #include "ui_mainwindow.h"
-#include "./../../lib/tienda_local/tienda.h"
-#include "./../../lib/tienda_local/producto.h"
+#include "tienda.h"
+#include "producto.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <iostream>
@@ -20,7 +24,7 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-/*
+
 void MainWindow::actualizarLista()
 {
     ui->listaProductos->clear();
@@ -28,11 +32,12 @@ void MainWindow::actualizarLista()
     {
        ui->listaProductos->addItem(QString::fromStdString(producto->obtenerString()));
     }
-}
-*/
 
-//void MainWindow::on_btnImportar_clicked()
-//{
+    ui->listaProductos->sortItems();
+}
+
+void MainWindow::on_btnImportar_clicked()
+{
 //    QString archivoDireccion = QFileDialog::getOpenFileName(this, "Abrir archivo", QDir::homePath());
 //    if (archivoDireccion == "")
 //    {
@@ -58,45 +63,57 @@ void MainWindow::actualizarLista()
 //          }
 
 //    }
-//}
+}
 
 
-//void MainWindow::on_btnAgregar_clicked()
-//{
-//    try{
-//        laTienda->agregarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
-//        this->ui->lineIdProducto->clear();
-//        this->ui->lineNombreProducto->clear();
-//        this->ui->lineExistencia->clear();
-//        this->actualizarLista();
-//    }catch(char const*message)
-//    {
-//        QMessageBox* msgbox = new QMessageBox(this);
-//        msgbox->setWindowTitle("Notificación");
-//        msgbox->setText("Error agregando. Por favor asegúrese que el Id no esté en uso ya.");
-//        msgbox->open();
-//    }
-//}
+void MainWindow::on_btnAgregar_clicked()
+{
+    try{
+        laTienda->agregarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
+        this->ui->lineIdProducto->clear();
+        this->ui->lineNombreProducto->clear();
+        this->ui->lineExistencia->clear();
+        this->actualizarLista();
+    }catch(excepcionAgregarDuplicado e)
+    {
+        QMessageBox* msgbox = new QMessageBox(this);
+        msgbox->setWindowTitle("Notificación");
+        msgbox->setText("Error. El Id ya está en uso.");
+        msgbox->open();
+    }catch(excepcionCampoInvalido e)
+    {
+        QMessageBox* msgbox = new QMessageBox(this);
+        msgbox->setWindowTitle("Notificación");
+        msgbox->setText("Error. Rellene todos los campos, asegúrese que el Id sea mayor o igual a 1.");
+        msgbox->open();
+    }catch(...){
+        QMessageBox* msgbox = new QMessageBox(this);
+        msgbox->setWindowTitle("Notificación");
+        msgbox->setText("Error.");
+        msgbox->open();
+    }
+
+}
 
 
-//void MainWindow::on_btnEditar_clicked()
-//{
-//    try{
-//        laTienda->editarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
-//        this->ui->lineIdProducto->clear();
-//        this->ui->lineNombreProducto->clear();
-//        this->ui->lineExistencia->clear();
-//        this->actualizarLista();
-//    }catch(char const*message)
-//    {
-//        QMessageBox* msgbox = new QMessageBox(this);
-//        msgbox->setWindowTitle("Notificación");
-//        msgbox->setText("Error editando. Por favor asegúrese que el Id proporcionado esté en uso.");
-//        msgbox->open();
-//    }
-//}
+void MainWindow::on_btnEditar_clicked()
+{
+    try{
+        laTienda->editarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
+        this->ui->lineIdProducto->clear();
+        this->ui->lineNombreProducto->clear();
+        this->ui->lineExistencia->clear();
+        this->actualizarLista();
+    }catch(...)
+    {
+        QMessageBox* msgbox = new QMessageBox(this);
+        msgbox->setWindowTitle("Notificación");
+        msgbox->setText("Error editando. Por favor asegúrese que el Id proporcionado esté en uso.");
+        msgbox->open();
+    }
+}
 
-/*
+
 void MainWindow::on_btnEliminar_clicked()
 {
     try{
@@ -105,7 +122,7 @@ void MainWindow::on_btnEliminar_clicked()
         this->ui->lineNombreProducto->clear();
         this->ui->lineExistencia->clear();
         this->actualizarLista();
-    }catch(char const*message)
+    }catch(...)
     {
         QMessageBox* msgbox = new QMessageBox(this);
         msgbox->setWindowTitle("Notificación");
@@ -113,6 +130,6 @@ void MainWindow::on_btnEliminar_clicked()
         msgbox->open();
     }
 }
-*/
+
 
 

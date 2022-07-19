@@ -15,6 +15,7 @@ SOURCES += \
 
 HEADERS += \
     excepcionAgregarDuplicado.h \
+    excepcionCampoInvalido.h \
     excepcionEditarIncorrecto.h \
     excepcionEliminarIncorrecto.h \
     producto.h \
