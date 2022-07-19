@@ -35,6 +35,8 @@ private slots:
 
     void on_lineTelefono_editingFinished();
 
+    void on_btnGuardar_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

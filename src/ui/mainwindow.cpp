@@ -135,24 +135,45 @@ void MainWindow::on_btnEliminar_clicked()
 
 void MainWindow::on_lineNombre_editingFinished()
 {
-        laTienda->setNombre((this->ui->lineNombre->text()).toStdString());
+    laTienda->setNombre((this->ui->lineNombre->text()).toStdString());
 }
 
 
 void MainWindow::on_lineDirWeb_editingFinished()
 {
-        laTienda->setSitioWeb((this->ui->lineDirWeb->text()).toStdString());
+    laTienda->setSitioWeb((this->ui->lineDirWeb->text()).toStdString());
 }
 
 
 void MainWindow::on_lineDirFisica_editingFinished()
 {
-        laTienda->setLocalizacion((this->ui->lineDirFisica->text()).toStdString());
+    laTienda->setLocalizacion((this->ui->lineDirFisica->text()).toStdString());
 }
 
 
 void MainWindow::on_lineTelefono_editingFinished()
 {
-         laTienda->setTelefono((this->ui->lineDirWeb->text()).toStdString());
+    laTienda->setTelefono((this->ui->lineDirWeb->text()).toStdString());
+}
+
+
+void MainWindow::on_btnGuardar_clicked()
+{
+    QString archivoDireccion = QFileDialog::getExistingDirectory (this, "Guardar archivo", QDir::homePath());
+    if (archivoDireccion == "")
+    {
+        QMessageBox::information(this, "Archivo", "Cancelado");
+    }else
+    {
+        QMessageBox::information(this, "Archivo", archivoDireccion + "/tienda.dat");
+        QFile file(archivoDireccion + "/tienda.dat");
+        if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+             QTextStream out(&file);
+             std::ostringstream* streamSalida = new ostringstream;
+             laTienda->GuardarEnStreamBinario(streamSalida);
+             out << streamSalida;
+        }
+        file.close();
+    }
 }
 
