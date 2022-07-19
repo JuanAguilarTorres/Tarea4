@@ -27,6 +27,13 @@ private slots:
 
     void on_btnEliminar_clicked();
 
+    void on_lineNombre_editingFinished();
+
+    void on_lineDirWeb_editingFinished();
+
+    void on_lineDirFisica_editingFinished();
+
+    void on_lineTelefono_editingFinished();
 
 private:
     Ui::MainWindow *ui;

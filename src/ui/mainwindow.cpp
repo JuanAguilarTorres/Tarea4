@@ -133,3 +133,27 @@ void MainWindow::on_btnEliminar_clicked()
 
 
 
+
+void MainWindow::on_lineNombre_editingFinished()
+{
+        laTienda->setNombre((this->ui->lineNombre->text()).toStdString());
+}
+
+
+void MainWindow::on_lineDirWeb_editingFinished()
+{
+        laTienda->setSitioWeb((this->ui->lineDirWeb->text()).toStdString());
+}
+
+
+void MainWindow::on_lineDirFisica_editingFinished()
+{
+        laTienda->setLocalizacion((this->ui->lineDirFisica->text()).toStdString());
+}
+
+
+void MainWindow::on_lineTelefono_editingFinished()
+{
+         laTienda->setTelefono((this->ui->lineDirWeb->text()).toStdString());
+}
+
