@@ -60,7 +60,7 @@ void MainWindow::on_btnImportar_clicked()
         this->ui->lineNombre->setText(QString::fromStdString(laTienda->getNombre()));
         this->ui->lineDirWeb->setText(QString::fromStdString(laTienda->getSitioWeb()));
         this->ui->lineDirFisica->setText(QString::fromStdString(laTienda->getLocalizacion()));
-        this->ui->lineTelefono->setText(QString::fromStdString(laTienda->getNombre()));
+        this->ui->lineTelefono->setText(QString::fromStdString(laTienda->getTelefono()));
         }
 }
 
