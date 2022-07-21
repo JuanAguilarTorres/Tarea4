@@ -153,7 +153,7 @@ void MainWindow::on_lineDirFisica_editingFinished()
 
 void MainWindow::on_lineTelefono_editingFinished()
 {
-    laTienda->setTelefono((this->ui->lineDirWeb->text()).toStdString());
+    laTienda->setTelefono((this->ui->lineTelefono->text()).toStdString());
 }
 
 
