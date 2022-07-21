@@ -171,7 +171,10 @@ void MainWindow::on_btnGuardar_clicked()
              QTextStream out(&file);
              std::ostringstream* streamSalida = new ostringstream;
              laTienda->GuardarEnStreamBinario(streamSalida);
-             out << streamSalida;
+
+             std::string str =  streamSalida->str();
+
+             out << QString::fromStdString(str);
         }
         file.close();
     }
