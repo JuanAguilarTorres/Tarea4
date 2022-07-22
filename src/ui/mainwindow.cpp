@@ -40,22 +40,25 @@ void MainWindow::on_btnImportar_clicked()
 {
     Tienda *tiendaVacia = new Tienda();
     laTienda = tiendaVacia;
+
     QString archivoDireccion = QFileDialog::getOpenFileName(this, "Abrir archivo", QDir::homePath());
     if (archivoDireccion == "")
     {
         QMessageBox::information(this, "Archivo", "Cancelado");
     }else
     {
-
         QMessageBox::information(this, "Archivo", archivoDireccion);
-        QFile archivo(archivoDireccion);
-        if (!archivo.open(QFile::ReadOnly|QFile::Text))
-        {
-            QMessageBox::warning(this,"Error","El archivo no se abrió");
-        }
-        std::string archivoString = QTextStream(&archivo).readAll().toStdString();
-        std::istringstream stream(archivoString);
-        laTienda->CargarDesdeStreamBinario(&stream);
+
+        std::ifstream archivoEntrada;
+
+        archivoEntrada.open(archivoDireccion.toStdString(), ios::in|ios::binary);
+
+                if (!archivoEntrada.is_open())
+                {
+                    cerr << "No se pudo abrir archivo archivo_test.dat para leer los datos";
+                }
+
+        laTienda->CargarDesdeStreamBinario(&archivoEntrada);
         this->actualizarLista();
         this->ui->lineNombre->setText(QString::fromStdString(laTienda->getNombre()));
         this->ui->lineDirWeb->setText(QString::fromStdString(laTienda->getSitioWeb()));
@@ -165,18 +168,23 @@ void MainWindow::on_btnGuardar_clicked()
         QMessageBox::information(this, "Archivo", "Cancelado");
     }else
     {
-        QMessageBox::information(this, "Archivo", archivoDireccion + "/tienda.dat");
-        QFile file(archivoDireccion + "/tienda.dat");
-        if(file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-             QTextStream out(&file);
-             std::ostringstream* streamSalida = new ostringstream;
-             laTienda->GuardarEnStreamBinario(streamSalida);
+        QMessageBox::information(this, "Archivo", archivoDireccion + "/archivo_test.dat");
+        ofstream archivoSalida;
+        archivoSalida.open((archivoDireccion + "/archivo_test.dat").toStdString(), ios::out|ios::binary);
 
-             std::string str =  streamSalida->str();
+        if (!archivoSalida.is_open())
+        {
+            cerr << "No se pudo abrir archivo archivo_test.dat para escribir los datos";
 
-             out << QString::fromStdString(str);
+            QMessageBox* msgbox = new QMessageBox(this);
+            msgbox->setWindowTitle("Notificación");
+            msgbox->setText("No se pudo abrir archivo archivo_test.dat para escribir los datos.");
+            msgbox->open();
+
         }
-        file.close();
+        laTienda->GuardarEnStreamBinario(&archivoSalida);
+        archivoSalida.close();
     }
+
 }
 
