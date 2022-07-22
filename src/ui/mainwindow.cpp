@@ -55,22 +55,29 @@ void MainWindow::on_btnImportar_clicked()
 
                 if (!archivoEntrada.is_open())
                 {
-                    cerr << "No se pudo abrir archivo archivo_test.dat para leer los datos";
-                }
+                    cerr << "No se pudo abrir archivo archivoTienda.dat para leer los datos";
 
-        laTienda->CargarDesdeStreamBinario(&archivoEntrada);
-        this->actualizarLista();
-        this->ui->lineNombre->setText(QString::fromStdString(laTienda->getNombre()));
-        this->ui->lineDirWeb->setText(QString::fromStdString(laTienda->getSitioWeb()));
-        this->ui->lineDirFisica->setText(QString::fromStdString(laTienda->getLocalizacion()));
-        this->ui->lineTelefono->setText(QString::fromStdString(laTienda->getTelefono()));
+                    QMessageBox* msgbox = new QMessageBox(this);
+                    msgbox->setWindowTitle("Notificación");
+                    msgbox->setText("No se pudo abrir archivo archivoTienda.dat para leer los datos.");
+                    msgbox->open();
+                }else
+                {
+                    laTienda->CargarDesdeStreamBinario(&archivoEntrada);
+                    this->actualizarLista();
+                    this->ui->lineNombre->setText(QString::fromStdString(laTienda->getNombre()));
+                    this->ui->lineDirWeb->setText(QString::fromStdString(laTienda->getSitioWeb()));
+                    this->ui->lineDirFisica->setText(QString::fromStdString(laTienda->getLocalizacion()));
+                    this->ui->lineTelefono->setText(QString::fromStdString(laTienda->getTelefono()));
+                }
         }
 }
 
 
 void MainWindow::on_btnAgregar_clicked()
 {
-    try{
+    try
+    {
         laTienda->agregarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
         this->ui->lineIdProducto->clear();
         this->ui->lineNombreProducto->clear();
@@ -100,25 +107,35 @@ void MainWindow::on_btnAgregar_clicked()
 
 void MainWindow::on_btnEditar_clicked()
 {
-    try{
-        laTienda->editarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
-        this->ui->lineIdProducto->clear();
-        this->ui->lineNombreProducto->clear();
-        this->ui->lineExistencia->clear();
-        this->actualizarLista();
-    }catch(...)
+    if((this->ui->lineNombreProducto->text() == ""))
     {
         QMessageBox* msgbox = new QMessageBox(this);
         msgbox->setWindowTitle("Notificación");
-        msgbox->setText("Error editando. Por favor asegúrese que el Id proporcionado esté en uso.");
+        msgbox->setText("Error editando. Por favor rellene todos los campos.");
         msgbox->open();
+    }else
+    {
+        try{
+            laTienda->editarProducto((this->ui->lineIdProducto->text()).toInt(), (this->ui->lineNombreProducto->text()).toStdString(), (this->ui->lineExistencia->text()).toInt());
+            this->ui->lineIdProducto->clear();
+            this->ui->lineNombreProducto->clear();
+            this->ui->lineExistencia->clear();
+            this->actualizarLista();
+        }catch(...)
+        {
+            QMessageBox* msgbox = new QMessageBox(this);
+            msgbox->setWindowTitle("Notificación");
+            msgbox->setText("Error editando. Por favor asegúrese que el Id proporcionado esté en uso.");
+            msgbox->open();
+        }
     }
 }
 
 
 void MainWindow::on_btnEliminar_clicked()
 {
-    try{
+    try
+    {
         laTienda->eliminarProducto((this->ui->lineIdProducto->text()).toInt());
         this->ui->lineIdProducto->clear();
         this->ui->lineNombreProducto->clear();
@@ -168,22 +185,24 @@ void MainWindow::on_btnGuardar_clicked()
         QMessageBox::information(this, "Archivo", "Cancelado");
     }else
     {
-        QMessageBox::information(this, "Archivo", archivoDireccion + "/archivo_test.dat");
+        QMessageBox::information(this, "Archivo", archivoDireccion + "/archivoTienda.dat");
         ofstream archivoSalida;
-        archivoSalida.open((archivoDireccion + "/archivo_test.dat").toStdString(), ios::out|ios::binary);
+        archivoSalida.open((archivoDireccion + "/archivoTienda.dat").toStdString(), ios::out|ios::binary);
 
         if (!archivoSalida.is_open())
         {
-            cerr << "No se pudo abrir archivo archivo_test.dat para escribir los datos";
+            cerr << "No se pudo abrir archivo archivoTienda.dat para escribir los datos";
 
             QMessageBox* msgbox = new QMessageBox(this);
             msgbox->setWindowTitle("Notificación");
-            msgbox->setText("No se pudo abrir archivo archivo_test.dat para escribir los datos.");
+            msgbox->setText("No se pudo abrir archivo archivoTienda.dat para escribir los datos.");
             msgbox->open();
 
+        }else
+        {
+            laTienda->GuardarEnStreamBinario(&archivoSalida);
+            archivoSalida.close();
         }
-        laTienda->GuardarEnStreamBinario(&archivoSalida);
-        archivoSalida.close();
     }
 
 }
